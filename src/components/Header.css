@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right-header {
+  position: relative;
+}
+
+.call-now {
+  font-size: 20px;
+}
+
+.phone-number {
+  font-size: 30px;
+  color: brown;
+  text-decoration: none;
+}
+
+.logo-phone {
+  position: absolute;
+  right: 130px;
+  bottom: -5px;
+}
+
+.main-menu {
+  background-color: black;
+  height: 100px;
+}
+
+.activeClass {
+  color: brown;
+  border-bottom: 1px brown;
+}
+.item-menu {
+  color: #8e6969;
+  font-size: 25px;
+  text-decoration: none;
+  display: block;
+}
+
+.main-item {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
