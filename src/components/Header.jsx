@@ -37,11 +37,11 @@ const Header = () => {
 
           <NavLink
             exact
-            to="/"
+            to="bang-gia"
             activeClassName="active-item"
             className="item-menu"
           >
-            Home
+            bang gia
           </NavLink>
         </div>
       </div>
