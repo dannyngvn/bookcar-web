@@ -27,18 +27,18 @@ const Header = () => {
       <div className="main-menu">
         <div className="container main-item">
           <NavLink
-            exact
+            exact="true"
             to="/"
-            activeClassName="active-item"
+            // activeClassName="active-item"
             className="item-menu"
           >
             Home
           </NavLink>
 
           <NavLink
-            exact
+            exact="true"
             to="bang-gia"
-            activeClassName="active-item"
+            // activeClassName="active-item"
             className="item-menu"
           >
             bang gia
