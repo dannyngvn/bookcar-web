@@ -1,51 +1,69 @@
-import React from 'react';
+import { useState } from 'react';
 import './Home.css';
-import { IoMdAdd } from 'react-icons/io';
-import { FaRegDotCircle } from 'react-icons/fa';
+import { IoMdAdd, IoIosPin } from 'react-icons/io';
+import { FaRegDotCircle, FaRoad } from 'react-icons/fa';
+import { GiAirplaneDeparture } from 'react-icons/gi';
+
 import GoogleAutoComplete from 'react-google-autocomplete';
 
 const Home = () => {
+  const [selectedTab, setSelectedTab] = useState('airport');
+
+  const handleTabChange = event => {
+    setSelectedTab(event.target.value);
+  };
   const handlePlaceSelect = place => {
-    console.log(place); // Đây là đối tượng chứa thông tin về địa điểm được chọn
-    // Xử lý dữ liệu địa điểm ở đây
+    console.log(place);
   };
   return (
-    <div>
+    <div className="main-conten container">
       <div className="form-book">
         <form action="">
-          <div className="head-form">
+          <div className="head-form ">
             <h3>Đặt xe</h3>
             <div className="bk-tab">
-              <label>
+              <label
+                className={`btn-switch ${
+                  selectedTab === 'airport' ? 'active' : ''
+                }`}
+              >
                 <input
                   type="radio"
-                  defaultChecked
                   name="tab"
-                  id="tabAirport"
-                  defaultValue="airport"
+                  checked={selectedTab === 'airport'}
+                  value="airport"
+                  onChange={handleTabChange}
                 />
                 <span>
-                  <i className="ic ic-plane" /> Sân bay
+                  <GiAirplaneDeparture className="icon icon-btn-switch" /> Sân
+                  bay
                 </span>
               </label>
-              <label>
+              <label
+                className={`btn-switch ${
+                  selectedTab === 'road' ? 'active' : ''
+                }`}
+              >
                 <input
                   type="radio"
                   name="tab"
-                  id="tabRoad"
-                  defaultValue="road"
+                  checked={selectedTab === 'road'}
+                  value="road"
+                  onChange={handleTabChange}
                 />
                 <span>
-                  <i className="ic ic-road" /> Đường dài
+                  <FaRoad className="icon icon-btn-switch" /> Đường dài
                 </span>
               </label>
             </div>
           </div>
           <label htmlFor="">Bạn đi từ</label>
           <div className="ctrl-input">
-            <FaRegDotCircle />
+            <FaRegDotCircle className="icon icon-input" />
             <GoogleAutoComplete
-              apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ" // Thay YOUR_GOOGLE_API_KEY bằng API key của bạn
+              apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
+              language="vi"
+              placeholder="Nhập điểm đón"
               onPlaceSelected={handlePlaceSelect}
               options={{
                 types: [],
@@ -57,9 +75,32 @@ const Home = () => {
               <IoMdAdd className="icon icon-add-pickup" />
             </button>
           </div>
+          <label htmlFor="">Bạn muốn đến :</label>
+          <div className="ctrl-input">
+            <IoIosPin className="icon icon-input" />
+            <GoogleAutoComplete
+              apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
+              language="vi"
+              placeholder="Nhập điểm đến"
+              onPlaceSelected={handlePlaceSelect}
+              options={{
+                types: [],
+                componentRestrictions: { country: 'VN' },
+              }}
+            />
+          </div>
         </form>
       </div>
-      <div></div>
+      <div className="banner">
+        <div>
+          <img
+            src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/banner-2023-10.jpg"
+            alt="sale"
+            className="banner-img"
+          />
+        </div>
+        <div></div>
+      </div>
     </div>
   );
 };

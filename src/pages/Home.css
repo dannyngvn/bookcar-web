@@ -4,3 +4,112 @@
 .icon-add-pickup {
   color: green;
 }
+
+.main-conten {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.form-book {
+  border: 1px solid black;
+  padding: 30px;
+  width: 50%;
+  border-radius: 15px;
+  background-color: #f5f5f5;
+}
+.ctrl-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 10px;
+  padding: 5px;
+  height: 50px;
+  position: relative;
+  background-color: #fff;
+}
+
+.icon-input {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  margin-top: -9px;
+}
+.pac-target-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  height: 100%;
+  outline: none;
+  padding: 0px 10px 0 40px;
+}
+
+.pause-btn {
+  margin: 0 20px;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  width: 45px;
+  border: none;
+  background-color: #fff;
+}
+
+.banner {
+  width: 50%;
+}
+
+.banner-img {
+  height: 300px;
+}
+.pac-container {
+  width: 100%wd;
+}
+
+.btn-switch {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #e0d9d9;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn-switch input[type='radio'] {
+  display: none;
+}
+
+.btn-switch input[type='radio']:checked + span {
+  color: #fff;
+}
+
+.btn-switch.active {
+  background-color: rgb(104, 9, 104);
+}
+
+.btn-switch span {
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn-switch {
+  margin-right: 4px;
+}
+
+.head-form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.head-form h3 {
+  font-size: 30px;
+  color: rgb(104, 9, 104);
+}
+
+.bk-tab {
+  margin-left: 30px;
+}
