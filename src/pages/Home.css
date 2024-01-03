@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   gap: 50px;
+  padding: 10px 0;
 }
 
 .form-book {
@@ -36,6 +37,7 @@
   left: 12px;
   top: 50%;
   margin-top: -9px;
+  z-index: 1;
 }
 .pac-target-input {
   width: 100%;
@@ -112,4 +114,69 @@
 
 .bk-tab {
   margin-left: 30px;
+}
+.option-trip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.type-car {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+.select-type-car {
+  border: none;
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 0px 10px 0 40px;
+  outline: none;
+}
+.form-control {
+  border: none;
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 0px 10px 0 40px;
+}
+
+.icon-violet {
+  color: rgb(104, 9, 104);
+}
+.line-form {
+  width: 100%;
+  border: 1px dashed black;
+  margin: 10px 0;
+}
+
+.margin-vetical {
+  margin: 10px 0;
+}
+
+.display-flex-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.total p,
+.price {
+  font-size: 20px;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }
