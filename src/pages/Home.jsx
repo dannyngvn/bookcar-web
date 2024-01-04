@@ -10,20 +10,96 @@ import 'react-datetime/css/react-datetime.css';
 import GoogleAutoComplete from 'react-google-autocomplete';
 import SwitchButton from '../components/SwitchButton';
 import { PiMoneyFill } from 'react-icons/pi';
+import moment from 'moment';
+import 'moment/locale/vi';
 
 const Home = () => {
+  const [tripValue, setTripvalue] = useState({
+    clientPhone: '',
+    clientName: '',
+    date: '',
+    pickUpTime: '',
+    pickUpAddress: '',
+    pickUpPoint: {
+      latitude: '',
+      longitude: '',
+    },
+    dropOffAddress: '',
+    dropOffPoint: {
+      latitude: '',
+      longitude: '',
+    },
+    lap: '',
+    price: '',
+    tripPrice: '',
+    vehicleType: '',
+    originator: '6557bc7f946da18233fd727b',
+    note: '',
+    status: 'waiting',
+  });
+
   const [selectedTab, setSelectedTab] = useState('airport');
 
   const handleTabChange = event => {
     setSelectedTab(event.target.value);
   };
-  const handlePlaceSelect = place => {
-    console.log(place);
+  const handlePlaceSelectPickUp = place => {
+    setTripvalue(prevTripValue => ({
+      ...prevTripValue,
+      pickUpAddress: place.formatted_address,
+      pickUpPoint: {
+        latitude: place.geometry.location.lat(),
+        longitude: place.geometry.location.lng(),
+      },
+    }));
+  };
+  const handlePlaceSelectdropOffPoint = place => {
+    setTripvalue(prevTripValue => ({
+      ...prevTripValue,
+      dropOffAddress: place.formatted_address,
+      dropOffPoint: {
+        latitude: place.geometry.location.lat(),
+        longitude: place.geometry.location.lng(),
+      },
+    }));
+  };
+  const handleDateTimeChange = newDateTime => {
+    // newDateTime sẽ là một object chứa giá trị date và time từ react-datetime
+    if (newDateTime && typeof newDateTime === 'object') {
+      const formattedDate = newDateTime.format('DD-MM-YYYY'); // Định dạng ngày
+      const formattedTime = newDateTime.format('HH:mm'); // Định dạng thời gian
+
+      setTripvalue({
+        ...tripValue,
+        date: formattedDate,
+        pickUpTime: formattedTime,
+      });
+    }
+  };
+
+  const onTripValueChange = event => {
+    const { value, name } = event.target;
+
+    //   Dynamic key in object
+    setTripvalue({
+      ...tripValue,
+      [name]: value,
+    });
+  };
+
+  const onSubmitForm = event => {
+    event.preventDefault();
+
+    setProductValues({
+      productName: '',
+      productImage: '',
+      productPrice: '',
+    });
   };
   return (
     <div className="main-conten container  ">
       <div className="form-book">
-        <form action="">
+        <form onSubmit={onSubmitForm}>
           <div className="head-form ">
             <h3>Đặt xe</h3>
             <div className="bk-tab">
@@ -36,7 +112,7 @@ const Home = () => {
                   type="radio"
                   name="tab"
                   checked={selectedTab === 'airport'}
-                  value="airport"
+                  defaultValue={'airport'}
                   onChange={handleTabChange}
                 />
                 <span>
@@ -53,7 +129,7 @@ const Home = () => {
                   type="radio"
                   name="tab"
                   checked={selectedTab === 'road'}
-                  value="road"
+                  value={'road'}
                   onChange={handleTabChange}
                 />
                 <span>
@@ -69,7 +145,7 @@ const Home = () => {
               apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
               language="vi"
               placeholder="Nhập điểm đón"
-              onPlaceSelected={handlePlaceSelect}
+              onPlaceSelected={handlePlaceSelectPickUp}
               options={{
                 types: [],
                 componentRestrictions: { country: 'VN' },
@@ -87,7 +163,7 @@ const Home = () => {
               apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
               language="vi"
               placeholder="Nhập điểm đến"
-              onPlaceSelected={handlePlaceSelect}
+              onPlaceSelected={handlePlaceSelectdropOffPoint}
               options={{
                 types: [],
                 componentRestrictions: { country: 'VN' },
@@ -95,27 +171,50 @@ const Home = () => {
             />
           </div>
           <div className="option-trip  margin-vetical">
-            <SwitchButton option={'2 chieu'} />
-            <SwitchButton option={'VAT'} />
+            <SwitchButton
+              option={'2 chieu'}
+              tripValue={tripValue}
+              setTripvalue={setTripvalue}
+              name={'lap'}
+            />
+            <SwitchButton
+              option={'VAT'}
+              tripValue={tripValue}
+              setTripvalue={setTripvalue}
+              name={'VAT'}
+            />
           </div>
           <div className="option-trip">
-            <div>
-              <label htmlFor="cars">Loai xe:</label>
+            <div className="choise-option">
+              <label htmlFor="cars">Loại xe:</label>
               <div className="type-car">
                 <FaCar className="icon icon-input icon-violet" />
-                <select name="cars" id="cars" className="select-type-car">
-                  <option value="volvo">4 cho</option>
-                  <option value="saab">7 cho </option>
-                  <option value="mercedes">45 cho</option>
-                  <option value="audi">100 cho</option>
+                <select
+                  name="vehicleType"
+                  id="vehicleType"
+                  className="select-type-car"
+                  onChange={onTripValueChange}
+                >
+                  <option value="4 chỗ hatchback">4 chỗ hatchback</option>
+                  <option value="4 chỗ sedan">4 chỗ sedan</option>
+                  <option value="7 chỗ">7 chỗ </option>
+                  <option value="9 chỗ">9 chỗ</option>
+                  <option value="16 chỗ">16 chỗ</option>
+                  <option value="29 chỗ">29 chỗ</option>
                 </select>
               </div>
             </div>
-            <div>
+            <div className="choise-option">
               <label htmlFor="cars">Ngay di:</label>
               <div className="type-car">
                 <CiCalendarDate className="icon icon-input icon-violet " />
-                <Datetime inputProps={{ placeholder: 'Chọn ngày và giờ' }} />
+                <Datetime
+                  locale="vi"
+                  inputProps={{ placeholder: 'Chọn ngày và giờ' }}
+                  onChange={handleDateTimeChange}
+                  dateFormat="DD-MM-YYYY"
+                  timeFormat="HH:mm"
+                />
               </div>
             </div>
           </div>
@@ -127,29 +226,41 @@ const Home = () => {
             </div>
             <div className="price">0d</div>
           </div>
-          <div>thong tin khach hang</div>
-          <div className="option-trip ">
-            <div className="type-car">
+          <div className="margin-vetical ">thong tin khach hang</div>
+          <div className="option-trip  margin-vetical ">
+            <div className="type-car choise-option">
               <FaUser className="icon icon-input icon-violet" />
               <input
                 type="text"
-                className="select-type-car"
+                className="select-type-car "
                 placeholder="ho va ten"
+                name="clientName"
+                onChange={onTripValueChange}
               />
             </div>
-            <div className="type-car">
+            <div className="type-car choise-option">
               <FaPhoneAlt className="icon icon-input icon-violet" />
               <input
                 type="number"
                 className="select-type-car"
                 placeholder="so dien thoai"
+                value={tripValue.clientPhone}
+                name="clientPhone"
+                onChange={onTripValueChange}
               />
             </div>
           </div>
 
           <div>+ them ghi chu</div>
-          <input type="text" placeholder="Ghi chu" />
-          <button type="button">{`DAT XE >>`}</button>
+          <textarea
+            placeholder="Thêm ghi chú !"
+            className="add-note margin-vetical "
+            name="note"
+            onChange={onTripValueChange}
+            cols="30"
+            rows="10"
+          ></textarea>
+          <button className="btn-book-now" type="submit">{`Đặt xe >>`}</button>
         </form>
       </div>
       <div className="banner">

@@ -180,3 +180,21 @@ input[type='number']::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+.add-note {
+  width: 100%;
+  height: 200px;
+}
+
+.btn-book-now {
+  width: 100%;
+  height: 50px;
+  background-color: rebeccapurple;
+  border: none;
+  border-radius: 15px;
+  color: #fff;
+}
+
+.choise-option {
+  width: 50%;
+}
