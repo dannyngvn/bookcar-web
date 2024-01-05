@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import './Home.css';
 import { IoMdAdd, IoIosPin } from 'react-icons/io';
 import { FaRegDotCircle, FaRoad, FaUser, FaPhoneAlt } from 'react-icons/fa';
@@ -7,7 +8,7 @@ import { CiCalendarDate } from 'react-icons/ci';
 import { FaCar } from 'react-icons/fa6';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
-import GoogleAutoComplete from 'react-google-autocomplete';
+import Autocomplete from 'react-google-autocomplete';
 import SwitchButton from '../components/SwitchButton';
 import { PiMoneyFill } from 'react-icons/pi';
 import moment from 'moment';
@@ -38,12 +39,26 @@ const Home = () => {
     status: 'waiting',
   });
 
+  const [point, setPoint] = useState({
+    lap: false,
+    VAT: false,
+  });
+  const [price, setPrice] = useState('0');
+  const [loading, setLoading] = useState(false);
+
   const [selectedTab, setSelectedTab] = useState('airport');
 
   const handleTabChange = event => {
     setSelectedTab(event.target.value);
   };
   const handlePlaceSelectPickUp = place => {
+    setPoint(prevPointValue => ({
+      ...prevPointValue,
+      pickUpPoint: {
+        latitude: place.geometry.location.lat(),
+        longitude: place.geometry.location.lng(),
+      },
+    }));
     setTripvalue(prevTripValue => ({
       ...prevTripValue,
       pickUpAddress: place.formatted_address,
@@ -54,6 +69,14 @@ const Home = () => {
     }));
   };
   const handlePlaceSelectdropOffPoint = place => {
+    setPoint(prevPointValue => ({
+      ...prevPointValue,
+
+      dropOffPoint: {
+        latitude: place.geometry.location.lat(),
+        longitude: place.geometry.location.lng(),
+      },
+    }));
     setTripvalue(prevTripValue => ({
       ...prevTripValue,
       dropOffAddress: place.formatted_address,
@@ -90,11 +113,11 @@ const Home = () => {
   const onSubmitForm = event => {
     event.preventDefault();
 
-    setProductValues({
-      productName: '',
-      productImage: '',
-      productPrice: '',
-    });
+    // setProductValues({
+    //   productName: '',
+    //   productImage: '',
+    //   productPrice: '',
+    // });
   };
   return (
     <div className="main-conten container  ">
@@ -141,7 +164,7 @@ const Home = () => {
           <label htmlFor="">Bạn đi từ</label>
           <div className="ctrl-input">
             <FaRegDotCircle className="icon icon-input icon-violet " />
-            <GoogleAutoComplete
+            <Autocomplete
               apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
               language="vi"
               placeholder="Nhập điểm đón"
@@ -159,7 +182,7 @@ const Home = () => {
           <label htmlFor="">Bạn muốn đến :</label>
           <div className="ctrl-input ">
             <IoIosPin className="icon icon-input" />
-            <GoogleAutoComplete
+            <Autocomplete
               apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
               language="vi"
               placeholder="Nhập điểm đến"
@@ -176,12 +199,16 @@ const Home = () => {
               tripValue={tripValue}
               setTripvalue={setTripvalue}
               name={'lap'}
+              setPoint={setPoint}
+              point={point}
             />
             <SwitchButton
-              option={'VAT'}
+              option={'vat'}
               tripValue={tripValue}
               setTripvalue={setTripvalue}
-              name={'VAT'}
+              name={'vat'}
+              setPoint={setPoint}
+              point={point}
             />
           </div>
           <div className="option-trip">
@@ -224,7 +251,7 @@ const Home = () => {
               <PiMoneyFill className="icon  icon-violet" />
               <p>Cuoc phi</p>
             </div>
-            <div className="price">0d</div>
+            <div className="price">{price}đ</div>
           </div>
           <div className="margin-vetical ">thong tin khach hang</div>
           <div className="option-trip  margin-vetical ">

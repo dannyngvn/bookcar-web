@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import './SwitchButton.css';
 
 const SwitchButton = props => {
-  const { option, tripValue, setTripvalue, name } = props;
+  const { option, tripValue, setTripvalue, name, setPoint, point } = props;
   const [isOn, setIsOn] = useState(false);
   const toggleSwitch = event => {
     const { name } = event.target;
 
     setIsOn(prevState => !prevState);
+    setPoint({
+      ...point,
+      [name]: !isOn,
+    });
     setTripvalue({
       ...tripValue,
       [name]: !isOn,
