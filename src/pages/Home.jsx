@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Home.css';
 import { IoMdAdd, IoIosPin } from 'react-icons/io';
@@ -68,20 +68,6 @@ const Home = () => {
         longitude: place.geometry.location.lng(),
       },
     }));
-    // const getPrice = async () => {
-    //   if (point.pickUpPoint || point.dropOffPoint) {
-    //     try {
-    //       const response = await axios.post(
-    //         'http://localhost:4000/api/v1/client/price/',
-    //         point
-    //       );
-    //       console.log(response.data); // Hiển thị dữ liệu từ phản hồi
-    //     } catch (error) {
-    //       console.error('Error:', error);
-    //     }
-    //   }
-    // };
-    // getPrice();
   };
   const handlePlaceSelectdropOffPoint = async place => {
     setPoint(prevPointValue => ({
@@ -101,21 +87,6 @@ const Home = () => {
       },
     }));
     console.log('first');
-    // const getPrice = async () => {
-    //   if (point.pickUpPoint || point.dropOffPoint) {
-    //     try {
-    //       console.log(point);
-    //       const response = await axios.post(
-    //         'http://localhost:4000/api/v1/client/price/',
-    //         point
-    //       );
-    //       console.log(response.data); // Hiển thị dữ liệu từ phản hồi
-    //     } catch (error) {
-    //       console.error('Error:', error);
-    //     }
-    //   }
-    // };
-    // getPrice();
   };
   const handleDateTimeChange = newDateTime => {
     if (newDateTime && typeof newDateTime === 'object') {
@@ -139,33 +110,25 @@ const Home = () => {
       [name]: value,
     });
   };
-
-  const getPrice = async event => {
-    event.preventDefault();
-    try {
-      if (tripValue.pickUpPoint.latitude && tripValue.dropOffPoint.latitude) {
-        const response = await axios.post(
-          'http://localhost:4000/api/v1/client/price/',
-          point, // Gửi tripValue thay vì point
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        console.log(response.data); // Hiển thị dữ liệu phản hồi
-        // Cập nhật state với giá cả
-        setPrice(prevPrice => ({
-          ...prevPrice,
-          tripPrice: response.data.price, // Giả sử giá được trả về là response.data.price
-        }));
+  useEffect(() => {
+    const getPrice = async () => {
+      if (point.pickUpPoint && point.dropOffPoint) {
+        try {
+          console.log(point);
+          const response = await axios.post(
+            'http://localhost:4000/api/v1/client/price/',
+            point
+          );
+          setPrice(response.data.price);
+          console.log(response.data); // Hiển thị dữ liệu từ phản hồi
+        } catch (error) {
+          console.error('Error:', error);
+        }
       }
-    } catch (error) {
-      console.error('Lỗi:', error);
-      // Xử lý lỗi ở đây, ví dụ: hiển thị thông báo lỗi cho người dùng
-    }
-  };
+    };
+
+    getPrice();
+  }, [point]); // `getPrice` sẽ được gọi lại khi point thay đổi
 
   // const onSubmitForm = event => {
   //   event.preventDefault();
@@ -184,7 +147,7 @@ const Home = () => {
   return (
     <div className="main-conten container  ">
       <div className="form-book">
-        <form onSubmit={getPrice}>
+        <form>
           <div className="head-form ">
             <h3>Đặt xe</h3>
             <div className="bk-tab">
@@ -313,7 +276,7 @@ const Home = () => {
               <PiMoneyFill className="icon  icon-violet" />
               <p>Cuoc phi</p>
             </div>
-            <div className="price">{price}</div>
+            <div className="price">{price.toLocaleString('en')} VNĐ</div>
           </div>
           <div className="margin-vetical ">thong tin khach hang</div>
           <div className="option-trip  margin-vetical ">
