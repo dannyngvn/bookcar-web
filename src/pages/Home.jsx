@@ -11,7 +11,7 @@ import 'react-datetime/css/react-datetime.css';
 import Autocomplete from 'react-google-autocomplete';
 import SwitchButton from '../components/SwitchButton';
 import { PiMoneyFill } from 'react-icons/pi';
-import moment from 'moment';
+// import moment from 'moment';
 import 'moment/locale/vi';
 
 const Home = () => {
@@ -43,15 +43,16 @@ const Home = () => {
     lap: false,
     VAT: false,
   });
+
   const [price, setPrice] = useState('0');
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState('airport');
 
   const handleTabChange = event => {
     setSelectedTab(event.target.value);
   };
-  const handlePlaceSelectPickUp = place => {
+  const handlePlaceSelectPickUp = async place => {
     setPoint(prevPointValue => ({
       ...prevPointValue,
       pickUpPoint: {
@@ -67,8 +68,22 @@ const Home = () => {
         longitude: place.geometry.location.lng(),
       },
     }));
+    // const getPrice = async () => {
+    //   if (point.pickUpPoint || point.dropOffPoint) {
+    //     try {
+    //       const response = await axios.post(
+    //         'http://localhost:4000/api/v1/client/price/',
+    //         point
+    //       );
+    //       console.log(response.data); // Hiển thị dữ liệu từ phản hồi
+    //     } catch (error) {
+    //       console.error('Error:', error);
+    //     }
+    //   }
+    // };
+    // getPrice();
   };
-  const handlePlaceSelectdropOffPoint = place => {
+  const handlePlaceSelectdropOffPoint = async place => {
     setPoint(prevPointValue => ({
       ...prevPointValue,
 
@@ -85,9 +100,24 @@ const Home = () => {
         longitude: place.geometry.location.lng(),
       },
     }));
+    console.log('first');
+    // const getPrice = async () => {
+    //   if (point.pickUpPoint || point.dropOffPoint) {
+    //     try {
+    //       console.log(point);
+    //       const response = await axios.post(
+    //         'http://localhost:4000/api/v1/client/price/',
+    //         point
+    //       );
+    //       console.log(response.data); // Hiển thị dữ liệu từ phản hồi
+    //     } catch (error) {
+    //       console.error('Error:', error);
+    //     }
+    //   }
+    // };
+    // getPrice();
   };
   const handleDateTimeChange = newDateTime => {
-    // newDateTime sẽ là một object chứa giá trị date và time từ react-datetime
     if (newDateTime && typeof newDateTime === 'object') {
       const formattedDate = newDateTime.format('DD-MM-YYYY'); // Định dạng ngày
       const formattedTime = newDateTime.format('HH:mm'); // Định dạng thời gian
@@ -110,19 +140,51 @@ const Home = () => {
     });
   };
 
-  const onSubmitForm = event => {
+  const getPrice = async event => {
     event.preventDefault();
+    try {
+      if (tripValue.pickUpPoint.latitude && tripValue.dropOffPoint.latitude) {
+        const response = await axios.post(
+          'http://localhost:4000/api/v1/client/price/',
+          point, // Gửi tripValue thay vì point
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
-    // setProductValues({
-    //   productName: '',
-    //   productImage: '',
-    //   productPrice: '',
-    // });
+        console.log(response.data); // Hiển thị dữ liệu phản hồi
+        // Cập nhật state với giá cả
+        setPrice(prevPrice => ({
+          ...prevPrice,
+          tripPrice: response.data.price, // Giả sử giá được trả về là response.data.price
+        }));
+      }
+    } catch (error) {
+      console.error('Lỗi:', error);
+      // Xử lý lỗi ở đây, ví dụ: hiển thị thông báo lỗi cho người dùng
+    }
   };
+
+  // const onSubmitForm = event => {
+  //   event.preventDefault();
+
+  //   // setProductValues({
+  //   //   productName: '',
+  //   //   productImage: '',
+  //   //   productPrice: '',
+  //   // });
+  // };
+  // useEffect(() => {
+  //   ;
+
+  //   getPrice();
+  // }, [point.dropOffPoint]);
   return (
     <div className="main-conten container  ">
       <div className="form-book">
-        <form onSubmit={onSubmitForm}>
+        <form onSubmit={getPrice}>
           <div className="head-form ">
             <h3>Đặt xe</h3>
             <div className="bk-tab">
@@ -251,7 +313,7 @@ const Home = () => {
               <PiMoneyFill className="icon  icon-violet" />
               <p>Cuoc phi</p>
             </div>
-            <div className="price">{price}đ</div>
+            <div className="price">{price}</div>
           </div>
           <div className="margin-vetical ">thong tin khach hang</div>
           <div className="option-trip  margin-vetical ">
