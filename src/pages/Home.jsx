@@ -33,7 +33,7 @@ const Home = () => {
     lap: '',
     price: '',
     tripPrice: '',
-    vehicleType: '',
+    vehicleType: '4 chỗ hatchback',
     originator: '6557bc7f946da18233fd727b',
     note: '',
     status: 'waiting',
@@ -41,7 +41,8 @@ const Home = () => {
 
   const [point, setPoint] = useState({
     lap: false,
-    VAT: false,
+    vat: false,
+    vehicleType: '4 chỗ hatchback',
   });
 
   const [price, setPrice] = useState('0');
@@ -274,7 +275,7 @@ const Home = () => {
           <div className="option-trip ">
             <div className="display-flex-container total">
               <PiMoneyFill className="icon  icon-violet" />
-              <p>Cuoc phi</p>
+              <p>Cước phí:</p>
             </div>
             <div className="price">{price.toLocaleString('en')} VNĐ</div>
           </div>

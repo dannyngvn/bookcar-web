@@ -169,6 +169,8 @@
 .total p,
 .price {
   font-size: 20px;
+  color: rgb(104, 9, 104);
+  font-weight: 700;
 }
 
 input[type='number']::-webkit-outer-spin-button,
