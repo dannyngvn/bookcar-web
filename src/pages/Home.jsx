@@ -13,8 +13,10 @@ import SwitchButton from '../components/SwitchButton';
 import { PiMoneyFill } from 'react-icons/pi';
 // import moment from 'moment';
 import 'moment/locale/vi';
+import History from '../components/History';
 
 const Home = () => {
+  const [bookList, setBookList] = useState([]);
   const [tripValue, setTripvalue] = useState({
     clientPhone: '',
     clientName: '',
@@ -53,7 +55,8 @@ const Home = () => {
   const handleTabChange = event => {
     setSelectedTab(event.target.value);
   };
-  const handlePlaceSelectPickUp = async place => {
+  const handlePlaceSelectPickUp = async (place, inputRef) => {
+    console.log(inputRef);
     setPoint(prevPointValue => ({
       ...prevPointValue,
       pickUpPoint: {
@@ -130,6 +133,16 @@ const Home = () => {
 
     getPrice();
   }, [point]); // `getPrice` sẽ được gọi lại khi point thay đổi
+
+  useEffect(() => {
+    const getBookList = async () => {
+      const response = await axios.get(
+        'http://localhost:4000/api/v1/client/booklist'
+      );
+      setBookList(response.data.data);
+    };
+    getBookList();
+  }, []);
 
   // const onSubmitForm = event => {
   //   event.preventDefault();
@@ -324,7 +337,15 @@ const Home = () => {
             className="banner-img"
           />
         </div>
-        <div></div>
+        <div>Khách hàng đã đặt xe</div>
+        {bookList.map(({ _id, clientName, clientPhone, dropOffAddress }) => (
+          <History
+            clientName={clientName}
+            clientPhone={clientPhone}
+            dropOffAddress={dropOffAddress}
+            key={String(_id)}
+          />
+        ))}
       </div>
     </div>
   );
