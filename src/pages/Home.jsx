@@ -27,10 +27,10 @@ const Home = () => {
       latitude: '',
       longitude: '',
     },
-    dropOffAddress: '',
+    dropOffAddress: 'Sân bay nội bài',
     dropOffPoint: {
-      latitude: '',
-      longitude: '',
+      latitude: '21.2176148',
+      longitude: '105.7929915',
     },
     lap: '',
     price: '',
@@ -44,6 +44,11 @@ const Home = () => {
   const [point, setPoint] = useState({
     lap: false,
     vat: false,
+    dropOffPoint: {
+      latitude: '21.2176148',
+      longitude: '105.7929915',
+    },
+
     vehicleType: '4 chỗ hatchback',
   });
 
@@ -54,9 +59,44 @@ const Home = () => {
 
   const handleTabChange = event => {
     setSelectedTab(event.target.value);
+    if (selectedTab === 'airport') {
+      setTripvalue({
+        ...tripValue,
+        dropOffAddress: '',
+        dropOffPoint: {
+          latitude: '',
+          longitude: '',
+        },
+      });
+      setPoint({
+        ...point,
+        dropOffAddress: '',
+        dropOffPoint: {
+          latitude: '',
+          longitude: '',
+        },
+      });
+    } else {
+      setTripvalue({
+        ...tripValue,
+        dropOffAddress: 'Sân bay nội bài',
+        dropOffPoint: {
+          latitude: '21.2176148',
+          longitude: '105.7929915',
+        },
+      });
+      setPoint({
+        ...point,
+        dropOffAddress: 'Sân bay nội bài',
+        dropOffPoint: {
+          latitude: '21.2176148',
+          longitude: '105.7929915',
+        },
+      });
+    }
   };
   const handlePlaceSelectPickUp = async (place, inputRef) => {
-    console.log(inputRef);
+    console.log(place);
     setPoint(prevPointValue => ({
       ...prevPointValue,
       pickUpPoint: {
@@ -110,6 +150,10 @@ const Home = () => {
 
     //   Dynamic key in object
     setTripvalue({
+      ...tripValue,
+      [name]: value,
+    });
+    setPoint({
       ...tripValue,
       [name]: value,
     });
@@ -222,6 +266,13 @@ const Home = () => {
           <div className="ctrl-input ">
             <IoIosPin className="icon icon-input" />
             <Autocomplete
+              value={tripValue.dropOffAddress}
+              onChange={e => {
+                setTripvalue({
+                  ...tripValue,
+                  dropOffAddress: e.target.value,
+                });
+              }}
               apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
               language="vi"
               placeholder="Nhập điểm đến"
