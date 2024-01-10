@@ -329,7 +329,7 @@ const Home = () => {
           <button className="btn-book-now" type="submit">{`Đặt xe >>`}</button>
         </form>
       </div>
-      <div className="banner">
+      <div className="rigth-conten">
         <div>
           <img
             src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/banner-2023-10.jpg"
@@ -337,6 +337,7 @@ const Home = () => {
             className="banner-img"
           />
         </div>
+        <div className="line-form"></div>
         <div>Khách hàng đã đặt xe</div>
         {bookList.map(({ _id, clientName, clientPhone, dropOffAddress }) => (
           <History

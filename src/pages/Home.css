@@ -7,7 +7,7 @@
 
 .main-conten {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   gap: 50px;
   padding: 10px 0;
@@ -59,8 +59,11 @@
   background-color: #fff;
 }
 
-.banner {
+.rigth-conten {
   width: 50%;
+  background-image: url(/public/backgroud.png); /* Đường dẫn đến hình ảnh */
+  background-size: cover; /* Hiển thị hình ảnh sao cho nó vừa với phần tử */
+  background-repeat: no-repeat;
 }
 
 .banner-img {
@@ -152,7 +155,7 @@
 }
 .line-form {
   width: 100%;
-  border: 1px dashed black;
+  border: 1px dashed rgb(104, 9, 104);
   margin: 10px 0;
 }
 
@@ -195,6 +198,7 @@ input[type='number'] {
   border: none;
   border-radius: 15px;
   color: #fff;
+  font-size: 25px;
 }
 
 .choise-option {
