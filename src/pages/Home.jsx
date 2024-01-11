@@ -154,13 +154,13 @@ const Home = () => {
       [name]: value,
     });
     setPoint({
-      ...tripValue,
+      ...point,
       [name]: value,
     });
   };
   useEffect(() => {
-    const getPrice = async () => {
-      if (point.pickUpPoint && point.dropOffPoint) {
+    if (point.pickUpPoint && point.dropOffPoint) {
+      const getPrice = async () => {
         try {
           console.log(point);
           const response = await axios.post(
@@ -172,11 +172,11 @@ const Home = () => {
         } catch (error) {
           console.error('Error:', error);
         }
-      }
-    };
+      };
 
-    getPrice();
-  }, [point]); // `getPrice` sẽ được gọi lại khi point thay đổi
+      getPrice();
+    }
+  }, [point]);
 
   useEffect(() => {
     const getBookList = async () => {
