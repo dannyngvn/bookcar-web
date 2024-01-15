@@ -11,7 +11,7 @@ import 'react-datetime/css/react-datetime.css';
 import Autocomplete from 'react-google-autocomplete';
 import SwitchButton from '../components/SwitchButton';
 import { PiMoneyFill } from 'react-icons/pi';
-// import moment from 'moment';
+import Popup from '../components/Popup';
 import 'moment/locale/vi';
 import History from '../components/History';
 
@@ -53,7 +53,7 @@ const Home = () => {
   });
 
   const [price, setPrice] = useState('0');
-  // const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState('airport');
 
@@ -168,6 +168,7 @@ const Home = () => {
             point
           );
           setPrice(response.data.price);
+          setTripvalue({ ...tripValue, price: response.data.price });
           console.log(response.data); // Hiển thị dữ liệu từ phản hồi
         } catch (error) {
           console.error('Error:', error);
@@ -188,24 +189,43 @@ const Home = () => {
     getBookList();
   }, []);
 
-  // const onSubmitForm = event => {
-  //   event.preventDefault();
+  const onSubmitForm = async event => {
+    event.preventDefault();
 
-  //   // setProductValues({
-  //   //   productName: '',
-  //   //   productImage: '',
-  //   //   productPrice: '',
-  //   // });
-  // };
-  // useEffect(() => {
-  //   ;
+    try {
+      const response = await axios.post(
+        'http://localhost:4000/api/v1/client/bookcar',
+        tripValue
+      );
 
-  //   getPrice();
-  // }, [point.dropOffPoint]);
+      // Kiểm tra trạng thái HTTP của response
+      if (response.status === 200) {
+        // Hiển thị popup thông báo thành công
+        setShowPopup(true);
+      } else {
+        // Xử lý lỗi nếu cần
+        console.error('Error submitting form');
+      }
+    } catch (error) {
+      // Xử lý lỗi trong trường hợp có lỗi kết nối hoặc lỗi từ server
+      console.error('An error occurred:', error);
+    }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <div className="main-conten container  ">
+      {showPopup && (
+        <Popup
+          message="Đặt xe thành công , chúng tôi sẽ sớm liên hệ với quý khách! "
+          onClose={closePopup}
+        />
+      )}
       <div className="form-book">
-        <form>
+        <form onSubmit={onSubmitForm}>
           <div className="head-form ">
             <h3>Đặt xe</h3>
             <div className="bk-tab">
