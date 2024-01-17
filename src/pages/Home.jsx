@@ -168,7 +168,12 @@ const Home = () => {
             point
           );
           setPrice(response.data.price);
-          setTripvalue({ ...tripValue, price: response.data.price });
+          setTripvalue({
+            ...tripValue,
+            tripPrice: response.data.price,
+            price: response.data.price - response.data.price * 0.1,
+          });
+
           console.log(response.data); // Hiển thị dữ liệu từ phản hồi
         } catch (error) {
           console.error('Error:', error);
