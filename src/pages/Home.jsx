@@ -29,8 +29,8 @@ const Home = () => {
     },
     dropOffAddress: 'Sân bay nội bài',
     dropOffPoint: {
-      latitude: '21.2176148',
-      longitude: '105.7929915',
+      latitude: 21.2176148,
+      longitude: 105.7929915,
     },
     lap: '',
     price: '',
@@ -171,7 +171,7 @@ const Home = () => {
           setTripvalue({
             ...tripValue,
             tripPrice: response.data.price,
-            price: response.data.price - response.data.price * 0.1,
+            price: response.data.price * 0.1,
           });
 
           console.log(response.data); // Hiển thị dữ liệu từ phản hồi
