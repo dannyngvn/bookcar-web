@@ -25,7 +25,7 @@ const Header = () => {
             // activeClassName="active-item"
             className="item-menu"
           >
-            Home
+            Trang chủ
           </NavLink>
 
           <NavLink
@@ -34,7 +34,15 @@ const Header = () => {
             // activeClassName="active-item"
             className="item-menu"
           >
-            bang gia
+            Bảng giá
+          </NavLink>
+          <NavLink
+            exact="true"
+            to="aboutus"
+            // activeClassName="active-item"
+            className="item-menu"
+          >
+            Về chúng tôi
           </NavLink>
         </div>
       </div>
