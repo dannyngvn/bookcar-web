@@ -1,11 +1,18 @@
 // AdminDashboard.js
 import React from 'react';
+import './AdminDashboard.css';
+import { NavLink, Outlet } from 'react-router-dom';
+import ListDriver from '../pages/ListDriver';
 
 const AdminDashboard = () => {
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
-      {/* Nội dung trang admin */}
+    <div className="container main-conten">
+      <div className="left-colum">
+        <NavLink to="/admin/list-driver"> Danh sách tài xế</NavLink>
+      </div>
+      <div className="right-colum">
+        <Outlet />
+      </div>
     </div>
   );
 };
