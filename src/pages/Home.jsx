@@ -220,6 +220,7 @@ const Home = () => {
   const closePopup = () => {
     setShowPopup(false);
   };
+  console.log('page Home');
 
   return (
     <div className="main-conten container  ">
