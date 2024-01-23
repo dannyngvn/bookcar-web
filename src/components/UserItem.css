@@ -1,0 +1,17 @@
+.UserItem {
+  border: 1px solid black;
+  padding: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.name-avatar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatart {
+  height: 50px;
+}

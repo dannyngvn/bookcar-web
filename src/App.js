@@ -8,9 +8,9 @@ import axios from 'axios';
 
 function App() {
   const navigate = useNavigate();
+
   const hanlerLogin = async (event, userValue) => {
     event.preventDefault();
-    console.log(userValue);
 
     try {
       const response = await axios.post(
