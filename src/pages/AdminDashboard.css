@@ -5,6 +5,15 @@
   border-right: 1px solid black;
   margin-top: 20px;
   background-color: rgb(99, 26, 21);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.left-colum a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
 }
 
 .right-colum {

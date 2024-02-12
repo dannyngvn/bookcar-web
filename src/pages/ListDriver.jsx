@@ -3,18 +3,25 @@ import UserItem from '../components/UserItem';
 import axios from 'axios';
 
 const ListDriver = () => {
+  console.log('list driver render');
   const [listDriver, setListDriver] = useState([]);
+  // const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const getUser = async () => {
-      const response = await axios.get('http://localhost:4000/api/v1/trip/', {
-        headers: {
-          'x-access-token': ` eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRhbm55bmd2biIsImZ1bGxOYW1lIjoiTmd1eeG7hW4gUXVhbmcgVMO5bmciLCJ2ZWhpY2xlVHlwZSI6NSwidmVoaWNsZSI6InZpb3MiLCJsaWNlbnNlUGxhdGVzIjoiMzBBOTk5OSIsImFjY291bnRCYWxhbmNlIjo1MzY0MTYsImlhdCI6MTcwNTk3NDE1MSwiZXhwIjoxNzA1OTgwMjYxfQ.pu7CfayqZ66nIQCZ72a2Ci-Rak_7Yifb-M_Gs9OzSdU`,
-        },
+    console.log('Effect runs');
+    const driverApi = 'http://192.168.1.108:4000/api/v1/admin/driver';
+
+    axios
+      .get(driverApi)
+      .then(response => {
+        setListDriver(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
       });
-    };
-    getUser();
+    return () => {};
   }, []);
+
   return (
     <table>
       <thead>
@@ -27,7 +34,18 @@ const ListDriver = () => {
         </tr>
       </thead>
       <tbody>
-        <UserItem />
+        {listDriver.map(user => {
+          const { username, phoneNumber, vehicle, licensePlates, _id } = user;
+          return (
+            <UserItem
+              username={username}
+              phoneNumber={phoneNumber}
+              vehicle={vehicle}
+              licensePlates={licensePlates}
+              key={_id}
+            />
+          );
+        })}
       </tbody>
     </table>
   );
