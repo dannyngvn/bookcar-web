@@ -3,27 +3,23 @@ import UserItem from '../components/UserItem';
 import axios from 'axios';
 import { BACKEND_URL } from '../ultil/http';
 
-const ListDriver = () => {
-  console.log('list driver render');
-  const [listDriver, setListDriver] = useState([]);
-  // const token = localStorage.getItem('token');
-
+const NewDriver = () => {
+  const [listNewDriver, setListNewDriver] = useState([]);
   useEffect(() => {
     console.log('Effect runs');
-    const driverApi = BACKEND_URL + '/admin/driver';
+    const driverApi = BACKEND_URL + '/admin/new-driver';
 
     axios
       .get(driverApi)
       .then(response => {
-        setListDriver(response.data.data);
+        setListNewDriver(response.data.data);
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
       });
-    console.log(listDriver);
+    console.log(listNewDriver);
     return () => {};
   }, []);
-
   return (
     <table>
       <thead>
@@ -36,7 +32,7 @@ const ListDriver = () => {
         </tr>
       </thead>
       <tbody>
-        {listDriver.map(user => {
+        {listNewDriver.map(user => {
           const {
             username,
             phoneNumber,
@@ -62,4 +58,4 @@ const ListDriver = () => {
   );
 };
 
-export default ListDriver;
+export default NewDriver;

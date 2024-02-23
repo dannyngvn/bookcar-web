@@ -1,15 +1,27 @@
 import React from 'react';
 import './UserItem.css';
+import { useNavigate, Link } from 'react-router-dom';
 
-const UserItem = ({ username, phoneNumber, vehicle, licensePlates }) => {
-  console.log('User Item render');
+const UserItem = ({
+  username,
+  phoneNumber,
+  vehicle,
+  licensePlates,
+  imageDriver,
+  UserId,
+}) => {
+  const navigate = useNavigate();
+  const navigateEditUser = () => {
+    navigate(`/admin/detail-driver/${UserId}`);
+  };
+
   return (
-    <tr>
+    <tr onClick={navigateEditUser}>
       <td>
         <img
           decoding="async"
           className="alignnone"
-          src="309829944_1477677376067461_276291726763527414_n.jpg"
+          src={`http://localhost:4000/${imageDriver}`}
           alt="avatart"
           height={'50px'}
         />

@@ -9,6 +9,8 @@ import Login from '../pages/Login';
 import ListDriver from '../pages/ListDriver';
 import ListTrip from '../pages/ListTrip';
 import EditTrip from '../pages/EditTrip';
+import NewDriver from '../pages/NewDriver';
+import DetailDriver from '../pages/DetailDriver';
 
 const AppRoutes = () => {
   return (
@@ -26,8 +28,10 @@ const AppRoutes = () => {
         }
       >
         <Route path="list-driver" element={<ListDriver />} />
+        <Route path="list-new-driver" element={<NewDriver />} />
         <Route path="list-trip" element={<ListTrip />} />
         <Route path="edit-trip/:tripId" element={<EditTrip />} />
+        <Route path="detail-driver/:UserId" element={<DetailDriver />} />
       </Route>
     </Routes>
   );

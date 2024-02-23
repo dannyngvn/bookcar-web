@@ -10,6 +10,7 @@ const AdminDashboard = () => {
       <div className="left-colum">
         <NavLink to="/admin/list-driver"> Danh sách tài xế</NavLink>
         <NavLink to="/admin/list-trip"> Danh sách chuyến đi</NavLink>
+        <NavLink to="/admin/list-new-driver"> Danh sách tài xế mới</NavLink>
       </div>
       <div className="right-colum">
         <Outlet />

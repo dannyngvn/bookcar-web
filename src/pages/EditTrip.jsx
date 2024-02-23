@@ -11,6 +11,7 @@ import 'react-datetime/css/react-datetime.css';
 import Autocomplete from 'react-google-autocomplete';
 import SwitchButton from '../components/SwitchButton';
 import { PiMoneyFill } from 'react-icons/pi';
+import { BACKEND_URL } from '../ultil/http';
 
 const EditTrip = () => {
   console.log('edit trip');
@@ -18,9 +19,7 @@ const EditTrip = () => {
   const params = useParams();
   const { tripId } = params;
   const getListTrip = async () => {
-    const response = await axios.get(
-      `http://192.168.1.108:4000/api/v1/trip/${tripId}`
-    );
+    const response = await axios.get(BACKEND_URL + `/trip/${tripId}`);
     console.log(response.data.data);
     setTripvalue(response.data.data);
 

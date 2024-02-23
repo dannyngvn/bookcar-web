@@ -1,13 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import TripItem from '../components/TripItem';
+import { BACKEND_URL } from '../ultil/http';
 
 const ListTrip = () => {
   console.log('List trip render');
   const token = localStorage.getItem('token');
   const [listTrip, setListTrip] = useState([]);
   const getListTrip = async () => {
-    const response = await axios.get('http://192.168.1.108:4000/api/v1/trip/');
+    const response = await axios.get(BACKEND_URL + '/trip/');
     setListTrip(response.data.data);
 
     return () => {};

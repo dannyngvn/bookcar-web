@@ -1,5 +1,6 @@
 import React from 'react';
 import './Price.css';
+
 const Price = () => {
   return (
     <div className=" container">
