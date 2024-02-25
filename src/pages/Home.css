@@ -92,7 +92,7 @@
 }
 
 .btn-switch.active {
-  background-color: rgb(104, 9, 104);
+  background-color: rebeccapurple;
 }
 
 .btn-switch span {
@@ -112,7 +112,7 @@
 
 .head-form h3 {
   font-size: 30px;
-  color: rgb(104, 9, 104);
+  color: rebeccapurple;
 }
 
 .bk-tab {
@@ -172,7 +172,7 @@
 .total p,
 .price {
   font-size: 20px;
-  color: rgb(104, 9, 104);
+  color: rebeccapurple;
   font-weight: 700;
 }
 
