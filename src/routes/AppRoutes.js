@@ -11,6 +11,7 @@ import ListTrip from '../pages/ListTrip';
 import EditTrip from '../pages/EditTrip';
 import NewDriver from '../pages/NewDriver';
 import DetailDriver from '../pages/DetailDriver';
+import AdminOverView from '../pages/AdminOverView';
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,8 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       >
+        <Route index element={<AdminOverView />} />
+
         <Route path="list-driver" element={<ListDriver />} />
         <Route path="list-new-driver" element={<NewDriver />} />
         <Route path="list-trip" element={<ListTrip />} />

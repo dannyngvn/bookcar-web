@@ -8,6 +8,7 @@ const AdminDashboard = () => {
   return (
     <div className="container main-conten">
       <div className="left-colum">
+        <NavLink to="/admin">Tổng quan</NavLink>
         <NavLink to="/admin/list-driver"> Danh sách tài xế</NavLink>
         <NavLink to="/admin/list-trip"> Danh sách chuyến đi</NavLink>
         <NavLink to="/admin/list-new-driver"> Danh sách tài xế mới</NavLink>

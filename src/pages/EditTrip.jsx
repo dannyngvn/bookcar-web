@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdAdd, IoIosPin } from 'react-icons/io';
-import { FaRegDotCircle, FaUser, FaPhoneAlt } from 'react-icons/fa';
+import { FaRegDotCircle, FaUser, FaPhoneAlt, FaRoad } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { CiCalendarDate } from 'react-icons/ci';
 import { FaCar } from 'react-icons/fa6';
@@ -12,16 +12,19 @@ import Autocomplete from 'react-google-autocomplete';
 import SwitchButton from '../components/SwitchButton';
 import { PiMoneyFill } from 'react-icons/pi';
 import { BACKEND_URL } from '../ultil/http';
+import { GiAirplaneDeparture } from 'react-icons/gi';
+import DotStaus from '../components/DotStaus';
 
 const EditTrip = () => {
   console.log('edit trip');
-  const [tripValue, setTripvalue] = useState({});
+  const [tripValue, setTripvalue] = useState({ price: 0 });
   const params = useParams();
   const { tripId } = params;
   const getListTrip = async () => {
     const response = await axios.get(BACKEND_URL + `/trip/${tripId}`);
     console.log(response.data.data);
     setTripvalue(response.data.data);
+    setPoint({ ...point, pickUpPoint: response.data.data.pickUpPoint });
 
     return () => {};
   };
@@ -40,8 +43,6 @@ const EditTrip = () => {
 
     vehicleType: '4 chỗ hatchback',
   });
-
-  const [price, setPrice] = useState('0');
 
   const [selectedTab, setSelectedTab] = useState('airport');
 
@@ -148,16 +149,19 @@ const EditTrip = () => {
     if (point.pickUpPoint && point.dropOffPoint) {
       const getPrice = async () => {
         try {
+          console.log(point);
           const response = await axios.post(
-            'http://192.168.1.108:4000/api/v1/client/price/',
+            'http://localhost:4000/api/v1/client/price/',
             point
           );
-          setPrice(response.data.price);
+
           setTripvalue({
             ...tripValue,
             tripPrice: response.data.price,
-            price: response.data.price * 0.1,
+            price: response.data.price,
           });
+
+          console.log(response.data); // Hiển thị dữ liệu từ phản hồi
         } catch (error) {
           console.error('Error:', error);
         }
@@ -165,17 +169,13 @@ const EditTrip = () => {
 
       getPrice();
     }
-    return () => {};
-  }, [tripValue, point]);
+  }, [point]);
   const navigate = useNavigate();
   const onSubmitForm = async event => {
     event.preventDefault();
 
     try {
-      const response = await axios.patch(
-        'http://192.168.1.108:4000/api/v1/trip/edit',
-        tripValue
-      );
+      const response = await axios.patch(BACKEND_URL + `/trip/edit`, tripValue);
 
       navigate('/admin/list-trip');
 
@@ -190,6 +190,45 @@ const EditTrip = () => {
     <form onSubmit={onSubmitForm}>
       <div className="head-form ">
         <h3>Chỉnh sửa</h3>
+        <div className="bk-tab">
+          <label
+            className={`btn-switch ${
+              selectedTab === 'airport' ? 'active' : ''
+            }`}
+          >
+            <input
+              type="radio"
+              name="tab"
+              checked={selectedTab === 'airport'}
+              defaultValue={'airport'}
+              onChange={handleTabChange}
+            />
+            <span>
+              <GiAirplaneDeparture className="icon icon-btn-switch" /> Sân bay
+            </span>
+          </label>
+          <label
+            className={`btn-switch ${selectedTab === 'road' ? 'active' : ''}`}
+          >
+            <input
+              type="radio"
+              name="tab"
+              checked={selectedTab === 'road'}
+              value={'road'}
+              onChange={handleTabChange}
+            />
+            <span>
+              <FaRoad className="icon icon-btn-switch" /> Đường dài
+            </span>
+          </label>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 5 }}>
+          <DotStaus status={tripValue.status} />
+          {tripValue.status === 'waiting' && <p>Chưa xác nhận</p>}
+          {tripValue.status === 'pending' && <p>Đã xác nhận</p>}
+          {tripValue.status === 'complete' && <p>Đã hoàn thành</p>}
+          {tripValue.status === 'processing' && <p>Tài xế đang thực hiện</p>}
+        </div>
       </div>
       <label htmlFor="">Bạn đi từ</label>
       <div className="ctrl-input">
@@ -199,7 +238,7 @@ const EditTrip = () => {
           onChange={e => {
             setTripvalue({
               ...tripValue,
-              dropOffAddress: e.target.value,
+              pickUpAddress: e.target.value,
             });
           }}
           apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
@@ -298,7 +337,7 @@ const EditTrip = () => {
           <PiMoneyFill className="icon  icon-violet" />
           <p>Cước phí:</p>
         </div>
-        <div className="price">{price.toLocaleString('en')} VNĐ</div>
+        <div className="price">{tripValue.price.toLocaleString('en')} VNĐ</div>
       </div>
       <div className="margin-vetical ">thong tin khach hang</div>
       <div className="option-trip  margin-vetical ">
@@ -348,7 +387,9 @@ const EditTrip = () => {
         <option value="complete">Hoàn thành</option>
         <option value="processing">Đang thực hiện</option>
       </select>
-      <button className="btn-book-now" type="submit">{`Đặt xe >>`}</button>
+      <button className="btn-book-now" type="submit">
+        Chỉnh sửa
+      </button>
     </form>
   );
 };

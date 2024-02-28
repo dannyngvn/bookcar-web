@@ -9,7 +9,7 @@ const DetailDriver = () => {
   const [driverValue, setDriverTripvalue] = useState({});
   const params = useParams();
   const { UserId } = params;
-  console.log(UserId);
+  const navigate = useNavigate();
   const getDriver = async () => {
     const response = await axios.get(BACKEND_URL + `/admin/${UserId}`);
     console.log(response.data.data);
@@ -27,10 +27,28 @@ const DetailDriver = () => {
   useEffect(() => {
     getDriver();
   }, [UserId]);
+  const onSubmitForm = async event => {
+    event.preventDefault();
+    console.log('cap nhat driver');
+
+    try {
+      const response = await axios.patch(
+        BACKEND_URL + `/admin/edit-driver`,
+        driverValue
+      );
+
+      navigate('/admin/list-trip');
+
+      // Kiểm tra trạng thái HTTP của response
+    } catch (error) {
+      // Xử lý lỗi trong trường hợp có lỗi kết nối hoặc lỗi từ server
+      console.error('An error occurred:', error);
+    }
+  };
   return (
     <div className="main-detail-driver">
       <div className="left-detal-driver">
-        <form action="">
+        <form onSubmit={onSubmitForm}>
           <h2>Hồ sơ tài xế {driverValue.fullName}</h2>
           <label htmlFor="phoneNumber">Số điện thoại</label>
           <input
@@ -85,7 +103,7 @@ const DetailDriver = () => {
           <label htmlFor="vehicleType">Trạng thái tài khoản</label>
           <select
             className="input"
-            name="vehicleType"
+            name="status"
             id="vehicleType"
             onChange={onUserValueChange}
           >
@@ -93,6 +111,7 @@ const DetailDriver = () => {
             <option value="activated">Kích hoạt</option>
             <option value="ban">Khóa tài khoản </option>
           </select>
+          <button type="submit">Chỉnh sửa</button>
         </form>
       </div>
       <div className="right-detal-driver">

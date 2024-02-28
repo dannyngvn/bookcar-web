@@ -25,40 +25,43 @@ const ListDriver = () => {
   }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th style={{ width: 200 }}>Ảnh đại diện</th>
-          <th>Họ và tên</th>
-          <th>Số điện thoại</th>
-          <th>Loại xe</th>
-          <th>Biển kiểm soát</th>
-        </tr>
-      </thead>
-      <tbody>
-        {listDriver.map(user => {
-          const {
-            username,
-            phoneNumber,
-            vehicle,
-            licensePlates,
-            _id,
-            imageDriver,
-          } = user;
-          return (
-            <UserItem
-              username={username}
-              phoneNumber={phoneNumber}
-              vehicle={vehicle}
-              licensePlates={licensePlates}
-              key={_id}
-              imageDriver={imageDriver}
-              UserId={_id}
-            />
-          );
-        })}
-      </tbody>
-    </table>
+    <>
+      <h2>Danh sách tài xế</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style={{ width: 200 }}>Ảnh đại diện</th>
+            <th>Họ và tên</th>
+            <th>Số điện thoại</th>
+            <th>Loại xe</th>
+            <th>Biển kiểm soát</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listDriver.map(user => {
+            const {
+              username,
+              phoneNumber,
+              vehicle,
+              licensePlates,
+              _id,
+              imageDriver,
+            } = user;
+            return (
+              <UserItem
+                username={username}
+                phoneNumber={phoneNumber}
+                vehicle={vehicle}
+                licensePlates={licensePlates}
+                key={_id}
+                imageDriver={imageDriver}
+                UserId={_id}
+              />
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 };
 

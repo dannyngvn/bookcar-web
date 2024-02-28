@@ -1,0 +1,45 @@
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.waiting {
+  background-color: orange;
+}
+
+.pending {
+  background-color: yellow;
+}
+
+.complete {
+  background-color: green;
+}
+.processing {
+  background-color: rebeccapurple;
+}
+
+.blinking {
+  animation: blinking-animation 1s infinite;
+}
+
+@keyframes blinking-animation {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+}

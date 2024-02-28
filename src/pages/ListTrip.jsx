@@ -18,43 +18,46 @@ const ListTrip = () => {
     getListTrip();
   }, [token]);
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Khách hàng</th>
-          <th>Điểm đón</th>
-          <th>Ngày đón</th>
-          <th>Giờ Đón</th>
-          <th>Tình trạng</th>
-          <th>Tổng</th>
-        </tr>
-      </thead>
-      <tbody>
-        {listTrip.map(trip => {
-          const {
-            clientName,
-            pickUpAddress,
-            date,
-            pickUpTime,
-            status,
-            tripPrice,
-            _id,
-          } = trip;
-          return (
-            <TripItem
-              clientName={clientName}
-              pickUpAddress={pickUpAddress}
-              date={date}
-              pickUpTime={pickUpTime}
-              status={status}
-              tripPrice={tripPrice}
-              key={_id}
-              id={_id}
-            />
-          );
-        })}
-      </tbody>
-    </table>
+    <>
+      <h2>Danh sách chuyến đi</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Khách hàng</th>
+            <th>Điểm đón</th>
+            <th>Ngày đón</th>
+            <th>Giờ Đón</th>
+            <th>Tình trạng</th>
+            <th>Tổng</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listTrip.map(trip => {
+            const {
+              clientName,
+              pickUpAddress,
+              date,
+              pickUpTime,
+              status,
+              tripPrice,
+              _id,
+            } = trip;
+            return (
+              <TripItem
+                clientName={clientName}
+                pickUpAddress={pickUpAddress}
+                date={date}
+                pickUpTime={pickUpTime}
+                status={status}
+                tripPrice={tripPrice}
+                key={_id}
+                id={_id}
+              />
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 };
 
