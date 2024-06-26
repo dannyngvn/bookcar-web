@@ -275,7 +275,7 @@ const Home = () => {
           <div className="ctrl-input">
             <FaRegDotCircle className="icon icon-input icon-violet " />
             <Autocomplete
-              apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
+              apiKey="AIzaSyDIfSyryL0vRpxCCDilpmgnYhC98A_E8EQ"
               language="vi"
               placeholder="Nhập điểm đón"
               onPlaceSelected={handlePlaceSelectPickUp}
@@ -300,7 +300,7 @@ const Home = () => {
                   dropOffAddress: e.target.value,
                 });
               }}
-              apiKey="AIzaSyAfTs6YdTJLhcasLYHleMkwXnKS8CyEOPQ"
+              apiKey="AIzaSyDIfSyryL0vRpxCCDilpmgnYhC98A_E8EQ"
               language="vi"
               placeholder="Nhập điểm đến"
               onPlaceSelected={handlePlaceSelectdropOffPoint}
