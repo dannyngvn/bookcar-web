@@ -39,6 +39,7 @@ const Home = () => {
     vehicleType: '4 chỗ hatchback',
     originator: '6557bc7f946da18233fd727b',
     note: '',
+    tripType: "airport",
     status: 'waiting',
   });
 
@@ -60,7 +61,7 @@ const Home = () => {
 
   const handleTabChange = event => {
     setSelectedTab(event.target.value);
-    if (selectedTab === 'airport') {
+    if (tripValue.tripType === 'airport') {
       setTripvalue({
         ...tripValue,
         dropOffAddress: '',
@@ -165,15 +166,15 @@ const Home = () => {
         try {
           console.log(point);
           const response = await axios.post(
-            'http://localhost:4000/api/v1/client/price/',
+            `${BACKEND_URL}/client/price/`,
             point
           );
           setPrice(response.data.price);
-          setTripvalue({
+          setTripvalue(tripValue => ({
             ...tripValue,
             tripPrice: response.data.price,
             price: response.data.price * 0.1,
-          });
+          }));
 
           console.log(response.data); // Hiển thị dữ liệu từ phản hồi
         } catch (error) {
@@ -188,7 +189,7 @@ const Home = () => {
   useEffect(() => {
     const getBookList = async () => {
       const response = await axios.get(
-        'http://localhost:4000/api/v1/client/booklist'
+        `${BACKEND_URL}/client/booklist`
       );
       setBookList(response.data.data);
     };
@@ -200,7 +201,7 @@ const Home = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:4000/api/v1/client/bookcar',
+        `${BACKEND_URL}/client/bookcar`,
         tripValue
       );
 
@@ -208,6 +209,29 @@ const Home = () => {
       if (response.status === 200) {
         // Hiển thị popup thông báo thành công
         setShowPopup(true);
+        setTripvalue({
+          clientPhone: '',
+          clientName: '',
+          date: '',
+          pickUpTime: '',
+          pickUpAddress: '',
+          pickUpPoint: {
+            latitude: '',
+            longitude: '',
+          },
+          dropOffAddress: 'Sân bay nội bài',
+          dropOffPoint: {
+            latitude: 21.2176148,
+            longitude: 105.7929915,
+          },
+          lap: '',
+          price: '',
+          tripPrice: '',
+          vehicleType: '4 chỗ hatchback',
+          originator: '6557bc7f946da18233fd727b',
+          note: '',
+          status: 'waiting',
+        })
       } else {
         // Xử lý lỗi nếu cần
         console.error('Error submitting form');

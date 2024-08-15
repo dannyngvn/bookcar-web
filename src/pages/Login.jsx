@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
   console.log('login render');
@@ -52,12 +53,17 @@ const Login = () => {
           },
         }
       );
-      const token = response.data.accessToken;
-      const userID = response.data.id;
+      const accessToken = response.data.accessToken;
+      const refreshToken = response.data.refreshToken;
+      const decodedAccessTokenToken = jwtDecode(accessToken);
+      const userID = decodedAccessTokenToken.userId;
+      console.log(response)
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('userID', userID);
+
+      localStorage.setItem('x-access-token', accessToken);
+      localStorage.setItem('x-refresh-token', refreshToken);
       localStorage.setItem('isLogin', true);
+      localStorage.setItem('userID', userID);
 
       navigate('/admin');
     } catch (error) {

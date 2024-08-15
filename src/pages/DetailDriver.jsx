@@ -10,10 +10,58 @@ const DetailDriver = () => {
   const params = useParams();
   const { UserId } = params;
   const navigate = useNavigate();
+  const refreshToken = async () => {
+    console.log('refresh token');
+    let refreshToken = localStorage.getItem('x-refresh-token');
+
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/auth/refresh_token`,
+        {},
+        {
+          headers: {
+            'x-refresh-token': refreshToken,
+          },
+        }
+      );
+      localStorage.setItem('x-access-token', response.data.accessToken);
+      return response.data.accessToken;
+    } catch (error) {
+      console.error('Lỗi khi refresh token:', error);
+    }
+  };
   const getDriver = async () => {
-    const response = await axios.get(BACKEND_URL + `/admin/${UserId}`);
+    try {
+      let accessToken = localStorage.getItem('x-access-token');
+      let refreshToken = localStorage.getItem('x-refresh-token');
+      const response = await axios.get(BACKEND_URL + `/admin/${UserId}`,{
+        headers: {
+            'x-access-token': accessToken,
+            'x-refresh-token': refreshToken,
+        },
+    });
     console.log(response.data.data);
     setDriverTripvalue(response.data.data);
+    } catch (error) {
+      console.log('Error:', error);
+      console.log('Error response:', error.response);
+  
+      if (error.response && error.response.status) {
+        if (error.response.status === 402) {
+          localStorage.removeItem('x-access-token');
+          localStorage.removeItem('x-refresh-token');
+          console.log('rf token het han');
+          alert("Đây là một thông báo! hết phiên đăng nhập");
+        }
+        if (error.response.status === 401) {
+          console.log('het han');
+          await refreshToken();
+          await getDriver();
+        }
+      } else {
+        console.error('An unexpected error occurred:', error);
+      }
+    }
   };
   const onUserValueChange = event => {
     const { value, name } = event.target;
@@ -32,17 +80,40 @@ const DetailDriver = () => {
     console.log('cap nhat driver');
 
     try {
+      let accessToken = localStorage.getItem('x-access-token');
+      let refreshToken = localStorage.getItem('x-refresh-token');
       const response = await axios.patch(
         BACKEND_URL + `/admin/edit-driver`,
-        driverValue
+        driverValue,{
+          headers: {
+              'x-access-token': accessToken,
+              'x-refresh-token': refreshToken,
+          },
+      }
       );
 
       navigate('/admin/list-trip');
 
       // Kiểm tra trạng thái HTTP của response
     } catch (error) {
-      // Xử lý lỗi trong trường hợp có lỗi kết nối hoặc lỗi từ server
-      console.error('An error occurred:', error);
+      console.log('Error:', error);
+      console.log('Error response:', error.response);
+  
+      if (error.response && error.response.status) {
+        if (error.response.status === 402) {
+          localStorage.removeItem('x-access-token');
+          localStorage.removeItem('x-refresh-token');
+          console.log('rf token het han');
+          alert("Đây là một thông báo! hết phiên đăng nhập");
+        }
+        if (error.response.status === 401) {
+          console.log('het han');
+          await refreshToken();
+          await onSubmitForm();
+        }
+      } else {
+        console.error('An unexpected error occurred:', error);
+      }
     }
   };
   return (

@@ -7,11 +7,11 @@ const Header = () => {
     <div>
       <div className="container header">
         <div>
-          <img src={`http://localhost:4000/logo-1.png`} alt="logo" />
+          <img src={`https://backend-bookcar.onrender.com/logo-1.png`} alt="logo" />
         </div>
         <div className="right-header">
           <img
-            src={`http://localhost:4000/ic_phone-y.png`}
+            src={`https://backend-bookcar.onrender.com/ic_phone-y.png`}
             alt="call"
             className="logo-phone"
           />

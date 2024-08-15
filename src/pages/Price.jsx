@@ -25,7 +25,7 @@ const Price = () => {
                   decoding="async"
                   className="alignnone"
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/4seats.png"
-                  alt
+                  alt= "logo"
                   width={270}
                   height={120}
                 />
@@ -46,7 +46,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/5seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -65,7 +65,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/7seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -84,7 +84,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/16seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -103,7 +103,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/29seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -122,7 +122,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/45seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -158,7 +158,7 @@ const Price = () => {
                   decoding="async"
                   className="alignnone"
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/4seats.png"
-                  alt
+                  alt= "logo"
                   width={270}
                   height={120}
                 />
@@ -178,7 +178,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/5seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -196,7 +196,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/7seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -214,7 +214,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/16seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -232,7 +232,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/29seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>
@@ -250,7 +250,7 @@ const Price = () => {
                   decoding="async"
                   title
                   src="https://noibai.flatsome.id.vn/wp-content/uploads/2023/11/45seats.png"
-                  alt
+                  alt= "logo"
                 />
                 <p />
                 <h3>

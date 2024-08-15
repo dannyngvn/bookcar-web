@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdAdd, IoIosPin } from 'react-icons/io';
 import { FaRegDotCircle, FaUser, FaPhoneAlt, FaRoad } from 'react-icons/fa';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CiCalendarDate } from 'react-icons/ci';
 import { FaCar } from 'react-icons/fa6';
 import Datetime from 'react-datetime';
@@ -20,18 +20,74 @@ const EditTrip = () => {
   const [tripValue, setTripvalue] = useState({ price: 0 });
   const params = useParams();
   const { tripId } = params;
-  const getListTrip = async () => {
-    const response = await axios.get(BACKEND_URL + `/trip/${tripId}`);
+  const refreshToken = async () => {
+    console.log('refresh token');
+    
+    let refreshToken = localStorage.getItem('x-refresh-token');
+    
+    try {
+      
+      const response = await axios.post(
+        `${BACKEND_URL}/auth/refresh_token`,
+        { refreshToken},
+        {
+          headers: {
+            
+            'x-refresh-token': refreshToken,
+          },
+        }
+      );
+      
+      
+      localStorage.setItem('x-access-token', response.data.accessToken);
+      return response.data.accessToken
+    } catch (error) {
+      console.error('Lỗi khi refresh token:', error);
+    }
+  };
+  const getTripValue = async () => {
+    try {
+      let accessToken = localStorage.getItem('x-access-token');
+      let refreshToken = localStorage.getItem('x-refresh-token');
+      const response = await axios.get(BACKEND_URL + `/trip/${tripId}`,{
+        headers: {
+          'x-access-token': accessToken,
+          'x-refresh-token': refreshToken,
+        },
+      });
     console.log(response.data.data);
     setTripvalue(response.data.data);
     setPoint({ ...point, pickUpPoint: response.data.data.pickUpPoint });
 
-    return () => {};
+    
+    } catch (error) {
+      
+        console.log('Error:', error);
+        console.log('Error response:', error.response);
+    
+        if (error.response && error.response.status) {
+          if (error.response.status === 402) {
+            localStorage.removeItem('x-access-token');
+            localStorage.removeItem('x-refresh-token');
+            console.log('rf token het han');
+            alert("Đây là một thông báo! hết phiên đăng nhập");
+          }
+          if (error.response.status === 401) {
+            console.log('het han');
+            await refreshToken();
+            await getTripValue();
+          }
+         else {
+          console.error('An unexpected error occurred:', error);
+        }
+      }
+    }
+    
   };
   useEffect(() => {
-    getListTrip();
+    getTripValue();
     console.log('ef get trip run');
-  }, [tripId]);
+  }, []);
 
   const [point, setPoint] = useState({
     lap: false,
@@ -175,14 +231,39 @@ const EditTrip = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.patch(BACKEND_URL + `/trip/edit`, tripValue);
+      let accessToken = localStorage.getItem('x-access-token');
+      let refreshToken = localStorage.getItem('x-refresh-token');
+      const response = await axios.patch(BACKEND_URL + `/trip/edit`, tripValue,{
+        headers: {
+          'x-access-token': accessToken,
+          'x-refresh-token': refreshToken,
+        },
+      });
 
       navigate('/admin/list-trip');
 
       // Kiểm tra trạng thái HTTP của response
     } catch (error) {
-      // Xử lý lỗi trong trường hợp có lỗi kết nối hoặc lỗi từ server
-      console.error('An error occurred:', error);
+      
+        console.log('Error:', error);
+        console.log('Error response:', error.response);
+    
+        if (error.response && error.response.status) {
+          if (error.response.status === 402) {
+            localStorage.removeItem('x-access-token');
+            localStorage.removeItem('x-refresh-token');
+            console.log('rf token het han');
+            alert("Đây là một thông báo! hết phiên đăng nhập");
+          }
+          if (error.response.status === 401) {
+            console.log('het han');
+            await refreshToken();
+            await getTripValue();
+          }
+        } else {
+          console.error('An unexpected error occurred:', error);
+        }
+      
     }
   };
 

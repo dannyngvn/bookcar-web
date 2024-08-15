@@ -5,19 +5,60 @@ import { BACKEND_URL } from '../ultil/http';
 
 const NewDriver = () => {
   const [listNewDriver, setListNewDriver] = useState([]);
-  useEffect(() => {
-    console.log('Effect runs');
-    const driverApi = BACKEND_URL + '/admin/new-driver';
+  const refreshToken = async () => {
+    console.log('refresh token');
+    let refreshToken = localStorage.getItem('x-refresh-token');
 
-    axios
-      .get(driverApi)
-      .then(response => {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/auth/refresh_token`,
+        {},
+        {
+          headers: {
+            'x-refresh-token': refreshToken,
+          },
+        }
+      );
+      localStorage.setItem('x-access-token', response.data.accessToken);
+      return response.data.accessToken;
+    } catch (error) {
+      console.error('Lỗi khi refresh token:', error);
+    }
+  };
+  const getListDriver = async () => {
+    try {
+      let accessToken = localStorage.getItem('x-access-token');
+    let refreshToken = localStorage.getItem('x-refresh-token');
+        const response = await axios.get(`${BACKEND_URL}/admin/new-driver`, {
+            headers: {
+                'x-access-token': accessToken,
+                'x-refresh-token': refreshToken,
+            },
+        });
         setListNewDriver(response.data.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data: ', error);
-      });
-    console.log(listNewDriver);
+    } catch (error){
+      console.log('Error:', error);
+      console.log('Error response:', error.response);
+  
+      if (error.response && error.response.status) {
+        if (error.response.status === 402) {
+          localStorage.removeItem('x-access-token');
+          localStorage.removeItem('x-refresh-token');
+          console.log('rf token het han');
+          alert("Đây là một thông báo! hết phiên đăng nhập");
+        }
+        if (error.response.status === 401) {
+          console.log('het han');
+          await refreshToken();
+          await getListDriver();
+        }
+      } else {
+        console.error('An unexpected error occurred:', error);
+      }
+    }
+};
+  useEffect(() => {
+    getListDriver()
     return () => {};
   }, []);
   return (
