@@ -6,15 +6,15 @@ const Header = () => {
   return (
     <div>
       <div className="container header">
-        <div>
+        {/* <div>
           <img src={`https://backend-bookcar.onrender.com/logo-1.png`} alt="logo" />
-        </div>
+        </div> */}
         <div className="right-header">
-          <img
+          {/* <img
             src={`https://backend-bookcar.onrender.com/ic_phone-y.png`}
             alt="call"
             className="logo-phone"
-          />
+          /> */}
           <div className="call-now">Goi xe ngay</div>
           <a className="phone-number" href="tel:+912222821">
             0912222821

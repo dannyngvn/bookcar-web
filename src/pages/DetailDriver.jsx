@@ -177,6 +177,7 @@ const DetailDriver = () => {
             name="status"
             id="vehicleType"
             onChange={onUserValueChange}
+            value={driverValue.status}
           >
             <option value="not activated">Chưa kích hoạt</option>
             <option value="activated">Kích hoạt</option>
